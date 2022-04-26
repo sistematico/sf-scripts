@@ -18,7 +18,7 @@ command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m n√£o est√
 PROJECT="laravel-jetstream"
 SSR="--ssr"
 TEAMS="" # --teams
-LAUNCH="true"
+LAUNCH="false"
 UPGRADE="true"
 TMUX_SESSION="Vite"
 EDITOR="code"
@@ -99,7 +99,7 @@ setup() {
     # VSCode Tasks
     test -f .vscode/tasks.json || \
         curl -sL -o .vscode/tasks.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/tasks.json
+        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/1b6fd2029313c1f5a71ac14a2aabd230af06e34c/tasks.json
 
     # Ansible
     test -f ansible.sh || \

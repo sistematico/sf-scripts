@@ -1,0 +1,57 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    repo:  "https://github.com/user/site.com.git"
+    dest:  "/var/www/site.com"
+    user:  "nginx"
+    group: "nginx"
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        update_cache: yes
+        name: git
+
+    - name: "Check if {{ dest }} exists"
+      stat:
+        path: "{{ dest }}"
+      register: dest_dir
+
+    - name: "Pull latest changes"
+      shell: |
+        git reset --hard
+        git pull
+      args:
+        chdir: "{{ dest }}"
+      become: yes
+      become_user: "{{ user }}"
+      when: dest_dir.stat.exists
+
+    - name: "Clone a private repository into project folder"
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ dest }}"
+        version: main
+        accept_hostkey: yes
+        force: yes
+        update: yes
+      become: yes
+      become_user: "{{ user }}"
+      when: not dest_dir.stat.exists
+      
+    - name: "Chown {{ dest }} directory"
+      file:
+        dest: "{{ dest }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        recurse: yes
+
+    - name: Run scaffolding script
+      ansible.builtin.script: build.sh
+      args:
+        executable: bash
+        chdir: "{{ dest }}"
+      become: yes
+      become_user: "{{ user }}"
