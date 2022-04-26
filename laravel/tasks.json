@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Artisan Serve",
+      "type": "shell",
+      "command": "php",
+      "detail": "php artisan serve",
+      "group": "none",
+      "args": ["artisan", "serve", "--env=local"],
+      "options": {
+        "cwd": "${workspaceFolder}/"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "pnpm dev",
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "detail": "pnpm dev",
+      "group": "none",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      }
+    }
+  ]
+}

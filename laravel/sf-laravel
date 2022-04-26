@@ -24,17 +24,34 @@ test -f database/database.sqlite || touch database/database.sqlite
 test -d .vscode || mkdir .vscode
 test -d .github/workflows || mkdir -p .github/workflows
 
+# .gitignore
+test -f .gitignore || \
+    curl -sL -o .gitignore \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gitignore
+
+# VSCode Settings
+test -f .vscode/settings.json || \
+    curl -sL -o .vscode/settings.json \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/settings.json
+
+# VSCode Tasks
 test -f .vscode/tasks.json || \
-    curl -s -L https://git.io/Ji8nT -o .vscode/tasks.json
+    curl -sL -o .vscode/tasks.json \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/tasks.json
 
+# Github Workflows
 test -f .github/workflows/laravel.yml || \
-    curl -s -L https://git.io/Ji8nf -o .github/workflows/laravel.yml
+    curl -sL -o .github/workflows/laravel.yml \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/laravel.yml
 
+# Laravel .env
 test -f .env || \
-    curl -s -L https://git.io/Jilxo -o .env
-
+    curl -sL -o .env \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env
+# Laravel .env.example
 test -f .env.example || \
-    curl -s -L https://git.io/Jilxi -o .env.example
+    curl -sL -o .env.example \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env.example
 
 pnpm install
 pnpm run dev
