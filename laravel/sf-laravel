@@ -74,7 +74,7 @@ if [ "$LAUNCH" == "true" ]; then
     \tmux new-window -t $TMUX_SESSION -n npm -d
 
     \tmux send-keys -t $TMUX_SESSION:artisan "php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:npm "npm run watch" ENTER
+    \tmux send-keys -t $TMUX_SESSION:pnpm "pnpm run watch" ENTER
 
     \tmux detach -s $TMUX_SESSION
 fi
