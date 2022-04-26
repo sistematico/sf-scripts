@@ -20,6 +20,8 @@ BROWSER="firefox"
 
 [ ! -f $PROJECT/artisan ] && laravel new $PROJECT
 
+cd $PROJECT
+
 test -f database/database.sqlite || touch database/database.sqlite
 test -d .vscode || mkdir .vscode
 test -d .github/workflows || mkdir -p .github/workflows
@@ -77,4 +79,7 @@ if [ "$LAUNCH" == "true" ]; then
     \tmux detach -s $TMUX_SESSION
 fi
 
-[ "$LAUNCH" == "true" ] && $BROWSER http://localhost:8000
+if [ "$LAUNCH" == "true" ];
+    $BROWSER http://localhost:8000
+    \tmux attach -s $TMUX_SESSION
+fi
