@@ -55,6 +55,7 @@ test -f .env.example || \
     curl -sL -o .env.example \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env.example
 
+pnpm add webpack -D
 pnpm install
 pnpm run dev
 pnpm run dev
@@ -79,7 +80,7 @@ if [ "$LAUNCH" == "true" ]; then
     \tmux detach -s $TMUX_SESSION
 fi
 
-if [ "$LAUNCH" == "true" ];
+if [ "$LAUNCH" == "true" ]; then
     $BROWSER http://localhost:8000
     \tmux attach -s $TMUX_SESSION
 fi
