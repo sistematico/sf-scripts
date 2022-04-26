@@ -47,11 +47,11 @@ test -f .github/workflows/laravel.yml || \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/laravel.yml
 
 # Laravel .env
-test -f .env || \
+#test -f .env || \
     curl -sL -o .env \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env
 # Laravel .env.example
-test -f .env.example || \
+#test -f .env.example || \
     curl -sL -o .env.example \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env.example
 
@@ -82,5 +82,5 @@ fi
 
 if [ "$LAUNCH" == "true" ]; then
     $BROWSER http://localhost:8000
-    \tmux attach -s $TMUX_SESSION
+    \tmux attach -t $TMUX_SESSION
 fi
