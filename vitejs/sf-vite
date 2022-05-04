@@ -13,12 +13,12 @@
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
 # BG: reset = 0, black = 40, red = 41, green = 42, yellow = 43, blue = 44, magenta = 45, cyan = 46, white=47
 
-PROJECT="$(pwd)/vitejs"
+PROJECT="vitejs"
 TMUX_SESSION="Vite"
 LAUNCH="true"
 BROWSER="firefox"
 
-[ ! -d $PROJECT ] && pnpm create vite $PROJECT -- --template vue-ts
+[ ! -d $PROJECT ] && pnpm create $PROJECT -- --template vue-ts
 
 cd $PROJECT
 
