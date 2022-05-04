@@ -49,7 +49,7 @@
         recurse: yes
 
     - name: Run scaffolding script
-      ansible.builtin.script: build.sh
+      ansible.builtin.script: laravel.sh
       args:
         executable: bash
         chdir: "{{ dest }}"

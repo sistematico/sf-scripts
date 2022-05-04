@@ -126,11 +126,11 @@ setup() {
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/.env.example
 
     # Build Script
-    test -f build.sh || \
-        curl -sL -o build.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/build.sh
+    test -f laravel.sh || \
+        curl -sL -o laravel.sh \
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/laravel.sh
 
-    chmod +x ansible.sh build.sh
+    chmod +x ansible.sh laravel.sh
 
     composer require laravel/jetstream
     php artisan jetstream:install inertia $SSR $TEAMS

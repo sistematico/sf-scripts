@@ -96,15 +96,15 @@ existent() {
         curl -sL -o ansible.yml \
         https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/ansible.yml
 
-    test -f build.sh || \
-        curl -sL -o build.sh \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/build.sh
+    test -f laravel.sh || \
+        curl -sL -o laravel.sh \
+        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/laravel.sh
 
     test -f .gitignore || \
         curl -sL -o .gitignore \
         https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/6a0bc6706263167d413d119c36180423c5660bd3/.gitignore
 
-    chmod +x ansible.sh build.sh
+    chmod +x ansible.sh laravel.sh
 
     composer install
     php artisan migrate:fresh --seed --force -q

@@ -1,4 +1,4 @@
-name: Laravel Jetstream
+name: Vite.js
 
 on: [push]
 
@@ -27,4 +27,4 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ secrets.PROJECT_PATH }}
-          bash laravel.sh
+          bash vite.sh
