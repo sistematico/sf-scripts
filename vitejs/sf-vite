@@ -18,7 +18,7 @@ TMUX_SESSION="Vite"
 LAUNCH="true"
 BROWSER="firefox"
 
-[ ! -d $PROJECT ] && pnpm create $PROJECT -- --template vue-ts
+[ ! -d $PROJECT ] && pnpm create vite $PROJECT -- --template vue-ts || exit
 
 cd $PROJECT
 
