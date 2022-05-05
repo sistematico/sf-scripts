@@ -7,7 +7,7 @@
 # Demo: https://www.gettr.com/post/pgjgwb394b
 # 
 # Criado em: 23/09/2021 01:33:12
-# Atualizado: 26/04/2022 16:42:58
+# Atualizado: 05/05/2022 13:03:04
 #
 # Referência de cores:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -18,7 +18,7 @@ command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não est�
 PROJECT="laravel"
 LAUNCH="false"
 UPGRADE="true"
-TMUX_SESSION="Vite"
+TMUX_SESSION="LIVV"
 EDITOR="code"
 BROWSER="firefox"
 
@@ -35,9 +35,12 @@ help() {
 }
 
 upgrade() {
-    sudo composer self-update --no-interaction --quiet
-    sudo composer global require laravel/installer --no-interaction --quiet
-    sudo pnpm add -g pnpm
+    echo "[\e[1;35m*\e[0m] Upgrading Composer..."
+    sudo composer self-update --no-interaction --quiet 2> /dev/null
+    echo "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
+    sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
+    echo "[\e[1;35m*\e[0m] Upgrading pnpm..."
+    sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
 }
 
 launch() {
@@ -52,7 +55,7 @@ launch() {
     \tmux new-window -t $TMUX_SESSION -n npm 
 
     \tmux send-keys -t $TMUX_SESSION:artisan "php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:npm "$NPM dev" ENTER
+    \tmux send-keys -t $TMUX_SESSION:npm "pnpm run dev" ENTER
 
     \tmux detach -s $TMUX_SESSION
 
@@ -66,52 +69,51 @@ existent() {
 
     test -f .vscode/settings.json || \
         curl -sL -o .vscode/settings.json \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/cb0b5445076fa0ed93bda40a169a14b6294baa36/settings.json
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/settings.json
 
     test -f .vscode/tasks.json || \
         curl -sL -o .vscode/tasks.json \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/1b6fd2029313c1f5a71ac14a2aabd230af06e34c/tasks.json
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/tasks.json
 
     test -f .github/workflows/vite.yml || \
         curl -sL -o .github/workflows/vite.yml \
-        https://gist.githubusercontent.com/sistematico/96c9dda44e7bcea42210e9477ebffeaf/raw/0c9ebd51b30060a623eddab6573dabff9f62fb16/vite.yml    
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/vite.yml    
 
     test -f .prettierrc.json || \
         curl -sL -o .prettierrc.json \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/.prettierrc.json
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.prettierrc.json
 
     test -f .env || \
         curl -sL -o .env \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/.env
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.env
 
     test -f .env.example || \
         curl -sL -o .env.example \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/.env.example
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.env.example
 
     test -f ansible.sh || \
         curl -sL -o ansible.sh \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/ansible.sh
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/ansible.sh
 
     test -f ansible.yml || \
         curl -sL -o ansible.yml \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/ansible.yml
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/ansible.yml
 
     test -f laravel.sh || \
         curl -sL -o laravel.sh \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/4c2c427d1ac8b3da2334382d8177212dedd971e0/laravel.sh
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/laravel.sh
 
     test -f .gitignore || \
         curl -sL -o .gitignore \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/6a0bc6706263167d413d119c36180423c5660bd3/.gitignore
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.gitignore
 
     chmod +x ansible.sh laravel.sh
 
-    composer install
+    composer install 1> /dev/null 2> /dev/null
     php artisan migrate:fresh --seed --force -q
-    php artisan key:generate
-    php artisan storage:link
+    php artisan key:generate --force -q
+    php artisan storage:link --force -q
     pnpm install 1> /dev/null 2> /dev/null 
-    pnpm dev
 }
 
 nonexistent() {
@@ -147,6 +149,11 @@ while [[ ${1} ]]; do
     shift
 done
 
-[ -f artisan ] && existent || nonexistent
+if [ -f artisan ]; then 
+    existent
+else
+    nonexistent
+fi
 
+[ "$UPGRADE" == "true" ] && upgrade
 [ "$LAUNCH" == "true" ] && launch
