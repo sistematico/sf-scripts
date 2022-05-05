@@ -55,16 +55,14 @@ if [ "$LAUNCH" == "true" ]; then
 
     \tmux new-session -d -s $TMUX_SESSION
         
-    \tmux new-window -t $TMUX_SESSION -n artisan -d
     \tmux new-window -t $TMUX_SESSION -n pnpm -d
 
-    \tmux send-keys -t $TMUX_SESSION:artisan "cd $PROJECT ; php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm watch" ENTER
+    \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm run dev" ENTER
 
     \tmux detach -s $TMUX_SESSION
 fi
 
 if [ "$LAUNCH" == "true" ]; then
-    $BROWSER http://localhost:8000
-    \tmux attach -t $TMUX_SESSION
+    $BROWSER http://localhost:3000
+    #\tmux attach -t $TMUX_SESSION
 fi
