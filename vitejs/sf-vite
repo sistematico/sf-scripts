@@ -26,14 +26,19 @@ test -d .vscode || mkdir .vscode
 test -d .github/workflows || mkdir -p .github/workflows
 
 # .gitignore
-# test -f .gitignore || \
-#     curl -sL -o .gitignore \
-#     https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gitignore
+test -f .gitignore || \
+    curl -sL -o .gitignore \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vitejs/gitignore
 
 # VSCode Settings
 test -f .vscode/settings.json || \
     curl -sL -o .vscode/settings.json \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/settings.json
+
+# VSCode Recommendations
+test -f .vscode/extensions.json || \
+    curl -sL -o .vscode/extensions.json \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vitejs/extensions.json
 
 # VSCode Tasks
 test -f .vscode/tasks.json || \
@@ -54,15 +59,11 @@ if [ "$LAUNCH" == "true" ]; then
     fi
 
     \tmux new-session -d -s $TMUX_SESSION
-        
     \tmux new-window -t $TMUX_SESSION -n pnpm -d
-
     \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm run dev" ENTER
-
     \tmux detach -s $TMUX_SESSION
 fi
 
 if [ "$LAUNCH" == "true" ]; then
     $BROWSER http://localhost:3000
-    #\tmux attach -t $TMUX_SESSION
 fi
