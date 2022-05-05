@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
 #
 # Arquivo: sf-html
-# HTML5 Scaffolding
+# Descrição: HTML5 Scaffolding
 #
-# Criado em 04/11/2021 00:11:34
-# Atualizado em 11/11/2021 06:26:47
+# Mais um script feito com ❤️ por: 
+# - "Lucas Saliés Brum" <lucas@archlinux.com.br>
+# 
+# Criado em:  04/11/2021 00:11:34
+# Atualizado: 05/05/2022 13:44:41
 #
-# Credits: https://www.taniarascia.com/basic-html5-file/
+# Referência:
+# FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
+# BG: reset = 0, black = 40, red = 41, green = 42, yellow = 43, blue = 44, magenta = 45, cyan = 46, white=47
+#
+# Créditos: https://www.taniarascia.com/basic-html5-file/
 
-PREVIEW="y"
-# EDITOR="${VISUAL:-code}"
-EDITOR="codium"
-BROWSER="${BROWSER:-firefox}"
-ICONE="$HOME/.local/share/icons/twemoji/party-popper.svg"
-
+LAUNCH="true"
+EDITOR="code"
+BROWSER="firefox"
+URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/html"
 
 if ! command -v dialog &> /dev/null; then
   echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro."
@@ -21,7 +26,7 @@ if ! command -v dialog &> /dev/null; then
 fi
 
 test -d $HOME/.config/dialog || /usr/bin/mkdir -p $HOME/.config/dialog
-test -f $HOME/.config/dialog/amarelo.cfg || curl -s -L http://ix.io/3EtV -o $HOME/.config/dialog/amarelo.cfg
+test -f $HOME/.config/dialog/amarelo.cfg || curl -s -L https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/dialog/amarelo.cfg -o $HOME/.config/dialog/amarelo.cfg
 export DIALOGRC=$HOME/.config/dialog/amarelo.cfg
 
 templ=$(dialog --stdout --keep-tite \
@@ -30,8 +35,7 @@ templ=$(dialog --stdout --keep-tite \
   --radiolist "Escolha template" 10 34 50 \
     "Grid Starter" "" ON \
     "Grid Center" "" OFF \
-    "Flex Full Div Overflow" "" OFF \
-    "Editar a si mesmo" "" OFF 2>&1)
+    "Flex Full Div Overflow" "" OFF 2>&1)
 
 [ $? -ne 0 ] && exit
 
@@ -51,10 +55,6 @@ case $templ in
     html="https://gitlab.com/-/snippets/2204832/raw/main/flex-full-overflow.html"
     css="https://gitlab.com/-/snippets/2204832/raw/main/flex-full-overflow.css"
     template="flex-overflow"
-  ;;
-  "Editar a si mesmo") 
-    $EDITOR $HOME/.local/bin/sf-html
-    exit
   ;;
   *)
     exit
@@ -97,12 +97,10 @@ test -f ${template}/index.html || curl -s -L "$html" -o ${template}/index.html
 test -f ${template}/assets/css/main.css || curl -s -L "$css" -o ${template}/assets/css/main.css
 (test ! -f ${template}/assets/js/script.js && test ! -z "$js") && curl -s -L "$js" -o ${template}/assets/js/script.js
 
-test -f ${template}/.prettierrc.json || curl -sL -o ${template}/.prettierrc.json https://gitlab.com/-/snippets/2204824/raw/main/.prettierrc.json
+test -f ${template}/.prettierrc.json || curl -sL -o ${template}/.prettierrc.json https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/.prettierrc.json
 
 $EDITOR ${template}
 
 if [ "$PREVIEW" == "y" ]; then
   $BROWSER ${template}/index.html &
 fi
-
-$HOME/bin/notify.sh "sf-html" $ICONE "HTML Scaffolding" "Scaffolding do template $templ pronto!"

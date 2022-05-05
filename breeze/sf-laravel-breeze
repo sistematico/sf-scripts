@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-# Arquivo: sf-laravel-jetstream
+# Arquivo: sf-laravel-breeze
 # Descrição: Scaffolding de um projeto usando o Laravel & Vite.js
 #
 # Mais um script feito com 💙 por "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # Demo: https://www.gettr.com/post/pgjgwb394b
 # 
-# Criado em: 23/09/2021 01:33:12
-# Atualizado: 26/04/2022 17:00:39
+# Criado em:  23/09/2021 01:33:12
+# Atualizado: 05/05/2022 13:49:29
 #
 # Referência de cores:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -15,14 +15,16 @@
 
 command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não está instalado, instale-o primeiro." && exit)
 
-PROJECT="laravel-jetstream"
+PROJECT="laravel-breeze"
 SSR="--ssr"
 TEAMS="" # --teams
-LAUNCH="false"
+LAUNCH="true"
 UPGRADE="true"
-TMUX_SESSION="Vite"
+TMUX_SESSION="Breeze"
 EDITOR="code"
 BROWSER="firefox"
+URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap"
+COMMON="https://raw.githubusercontent.com/sistematico/sf-scripts/main/common"
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -35,9 +37,12 @@ help() {
 }
 
 upgrade() {
-    sudo composer self-update --no-interaction --quiet
-    sudo composer global require laravel/installer --no-interaction --quiet
-    sudo pnpm add -g pnpm
+    echo "[\e[1;35m*\e[0m] Upgrading Composer..."
+    sudo composer self-update --no-interaction --quiet 2> /dev/null
+    echo "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
+    sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
+    echo "[\e[1;35m*\e[0m] Upgrading pnpm..."
+    sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
 }
 
 launch() {
@@ -84,51 +89,51 @@ setup() {
     # .gitignore
     test -f .gitignore || \
         curl -sL -o .gitignore \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gitignore
+        $COMMON/gitignore
 
     # Prettier
     test -f .prettierrc.json || \
         curl -sL -o .prettierrc.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/.prettierrc.json
+        $COMMON/.prettierrc.json
 
     # VSCode Settings
     test -f .vscode/settings.json || \
         curl -sL -o .vscode/settings.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/settings.json
-
-    # VSCode Tasks
-    test -f .vscode/tasks.json || \
-        curl -sL -o .vscode/tasks.json \
-        https://gist.githubusercontent.com/sistematico/ef54c9a520428c7ad1160803aa0eadb1/raw/1b6fd2029313c1f5a71ac14a2aabd230af06e34c/tasks.json
+        $COMMON/settings.json
 
     # Ansible
     test -f ansible.sh || \
         curl -sL -o ansible.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.sh
+        $COMMON/ansible.sh
+
+    # VSCode Tasks
+    test -f .vscode/tasks.json || \
+        curl -sL -o .vscode/tasks.json \
+        $URL/tasks.json
 
     test -f ansible.yml || \
         curl -sL -o ansible.yml \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/ansible.yml
+        $URL/ansible.yml
 
     # Github Workflows
     test -f .github/workflows/jetstream.yml || \
         curl -sL -o .github/workflows/jetstream.yml \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/jetstream.yml
+        $URL/jetstream.yml
 
     # Laravel .env
     test -f .env || \
         curl -sL -o .env \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/.env
+        $URL/.env
 
     # Laravel .env.example
     test -f .env.example || \
         curl -sL -o .env.example \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/.env.example
+        $URL/.env.example
 
     # Build Script
     test -f laravel.sh || \
         curl -sL -o laravel.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/laravel.sh
+        $URL/breeze.sh
 
     chmod +x ansible.sh laravel.sh
 
