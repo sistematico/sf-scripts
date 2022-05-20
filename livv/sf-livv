@@ -61,7 +61,7 @@ launch() {
 }
 
 existent() {
-    cd $PROJECT
+    [ ! -f artisan ] && cd $PROJECT    
 
     test -d database || mkdir database
     test -f database/database.sqlite || touch database/database.sqlite
