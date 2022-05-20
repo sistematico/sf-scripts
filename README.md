@@ -2,52 +2,43 @@
 
 ## Instalação
 
-### Automática
-
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/installer.sh)
 ```
 
-### Manual
+## Uso
 
-```bash
-mkdir ~/github && cd ~/github
-git clone https://github.com/sistematico/sf-scripts && cd sf-scripts
-cd /usr/local/bin 
-sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode ) for s in "${sfscripts[@]}" do; sudo ln -s $USER/github/$s/sf-$s; done
-```
+### Stacks
 
-## Stacks
+#### Laravel
 
-### Laravel
-
-#### Laravel(raw)
+##### Laravel(raw)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/sf-laravel)
 ```
 
-#### Laravel Jetstream
+##### Laravel Jetstream
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/jetstream/sf-jetstream)
 ```
 
-#### Laravel Breeze Vue
+##### Laravel Breeze Vue
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze/sf-breeze)
 ```
 
-#### Laravel, Inertia.js, Vite.js, Vue.js 3 and TypeScript Stack
+##### Laravel, Inertia.js, Vite.js, Vue.js 3 and TypeScript Stack
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv)
 ```
 
-### Vite
+#### Vite
 
-#### Vite + Vue.js 3 using TypeScript
+##### Vite + Vue.js 3 using TypeScript
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/sf-vite)
@@ -59,10 +50,16 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap/sf-bootstrap)
 ```
 
-### HTML Skeletons
+#### HTML Skeletons
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/html/sf-html)
+```
+
+#### VS Code
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vscode/sf-vscode)
 ```
 
 ## Créditos

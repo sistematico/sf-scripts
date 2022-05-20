@@ -75,9 +75,9 @@ existent() {
         curl -sL -o .vscode/tasks.json \
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/tasks.json
 
-    test -f .github/workflows/vite.yml || \
-        curl -sL -o .github/workflows/vite.yml \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/vite.yml    
+    test -f .github/workflows/livv.yml || \
+        curl -sL -o .github/workflows/livv.yml \
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/livv.yml    
 
     test -f .prettierrc.json || \
         curl -sL -o .prettierrc.json \
@@ -99,9 +99,9 @@ existent() {
         curl -sL -o ansible.yml \
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/ansible.yml
 
-    test -f laravel.sh || \
-        curl -sL -o laravel.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/laravel.sh
+    test -f livv.sh || \
+        curl -sL -o livv.sh \
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/livv.sh
 
     test -f .gitignore || \
         curl -sL -o .gitignore \
@@ -119,8 +119,8 @@ existent() {
 nonexistent() {
     composer create-project laravel/laravel "$PROJECT"
     cd "$PROJECT"
-    npx @preset/cli apply laravel:inertia
-    rm -rf node_modules package-lock.json 
+    rm -rf node_modules package-lock.json .pnpm-debug.log npm-debug.log
+    pnpm dlx @preset/cli apply laravel:inertia
     existent
 }
 
