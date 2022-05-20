@@ -21,7 +21,7 @@ sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode )
 
 for s in "${sfscripts[@]}"; do
   echo "Criando link simbólico para sf-${s}..."
-  sudo ln -fs /home/$USER/github/$s/sf-$s 2> /dev/null
+  sudo ln -fs /home/$USER/github/sf-scripts/$s/sf-$s 2> /dev/null
 done
 
 echo "Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
