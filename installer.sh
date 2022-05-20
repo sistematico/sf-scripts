@@ -19,7 +19,7 @@ cd /usr/local/bin/
 
 sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode ) 
 
-for s in "${sfscripts[@]}" do; 
+for s in "${sfscripts[@]}"; do
   echo "Criando link simbólico para sf-${s}..."
   sudo ln -fs $USER/github/$s/sf-$s 2> /dev/null
 done
