@@ -1,0 +1,18 @@
+{
+  "npm.packageManager": "pnpm",
+  "files.exclude": {
+    "**/.idea": true,
+    "**/node_modules": true,
+    ".commit": true,
+    ".editorconfig": true,
+    ".gitattributes": true,
+    ".styleci.yml": true,
+    "artisan": true,
+    "composer.lock": true,
+    "pnpm-lock.yaml": true,
+    ".pnpm-debug.log": true,
+    "npm-debug.log": true,
+    "tests": true,
+    "phpunit.xml": true
+  }
+}

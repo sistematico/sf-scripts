@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-# Arquivo: sf-laravel-vite
-# Descrição: Scaffolding de um projeto usando o Laravel & Vite.js
+# Arquivo: sf-livv
+# Descrição: Scaffolding de um projeto usando o Laravel, Inertia.js, Vue.js 3, Vite.js & TypeScript
 #
 # Mais um script feito com 💙 por "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # Demo: https://www.gettr.com/post/pgjgwb394b
 # 
 # Criado em: 23/09/2021 01:33:12
-# Atualizado: 05/05/2022 13:03:04
+# Atualizado: 20/05/2022 17:50:39
 #
 # Referência de cores:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -16,7 +16,7 @@
 command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não está instalado, instale-o primeiro." && exit)
 command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
 
-[ $1 ] && PROJECT="$1" || PROJECT="laravel"
+[ $1 ] && PROJECT="$1" || PROJECT="livv"
 LAUNCH="false"
 UPGRADE="true"
 TMUX_SESSION="LIVV"
@@ -45,12 +45,10 @@ upgrade() {
 
 launch() {
     \tmux has-session -t $TMUX_SESSION 2>/dev/null
-    if [ $? != 0 ]; then
-        \tmux kill-session -t $TMUX_SESSION
-    fi
+    [ $? != 0 ] && \tmux kill-session -t $TMUX_SESSION
 
     \tmux new-session -d -s $TMUX_SESSION 2>/dev/null
-    
+   
     \tmux new-window -t $TMUX_SESSION -n artisan 
     \tmux new-window -t $TMUX_SESSION -n npm 
 
@@ -172,6 +170,6 @@ while [[ ${1} ]]; do
     shift
 done
 
-[ -f $PROJECT/artisan ] && existent || nonexistent
 [ "$UPGRADE" == "true" ] && upgrade
+[ -f $PROJECT/artisan ] && existent || nonexistent
 [ "$LAUNCH" == "true" ] && launch
