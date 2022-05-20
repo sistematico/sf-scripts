@@ -14,6 +14,7 @@
 # BG: reset = 0, black = 40, red = 41, green = 42, yellow = 43, blue = 44, magenta = 45, cyan = 46, white=47
 
 command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não está instalado, instale-o primeiro." && exit)
+command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
 
 PROJECT="laravel-breeze"
 SSR="--ssr"
@@ -37,11 +38,11 @@ help() {
 }
 
 upgrade() {
-    echo "[\e[1;35m*\e[0m] Upgrading Composer..."
+    echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
     sudo composer self-update --no-interaction --quiet 2> /dev/null
-    echo "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
+    echo -e "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
     sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
-    echo "[\e[1;35m*\e[0m] Upgrading pnpm..."
+    echo -e "[\e[1;35m*\e[0m] Upgrading pnpm..."
     sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
 }
 
