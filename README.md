@@ -1,5 +1,22 @@
 # [Scaffolding Scripts](https://github.com/sistematico/sf-scripts)
 
+## Instalação
+
+### Automática
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/installer.sh)
+```
+
+### Manual
+
+```bash
+mkdir ~/github && cd ~/github
+git clone https://github.com/sistematico/sf-scripts && cd sf-scripts
+cd /usr/local/bin 
+sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode ) for s in "${sfscripts[@]}" do; sudo ln -s $USER/github/$s/sf-$s; done
+```
+
 ## Stacks
 
 ### Laravel
@@ -13,13 +30,13 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 #### Laravel Jetstream
 
 ```bash
-bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/jetstream/sf-laravel-jetstream)
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/jetstream/sf-jetstream)
 ```
 
 #### Laravel Breeze Vue
 
 ```bash
-bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze/sf-laravel-breeze)
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze/sf-breeze)
 ```
 
 #### Laravel, Inertia.js, Vite.js, Vue.js 3 and TypeScript Stack
@@ -33,7 +50,7 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 #### Vite + Vue.js 3 using TypeScript
 
 ```bash
-bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vitejs/sf-vite)
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/sf-vite)
 ```
 
 ### Twitter Bootstrap 5
