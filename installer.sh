@@ -9,7 +9,7 @@ dest="$HOME/github"
 
 if [ ! -d $dest/sf-scripts ]; then
   echo "Clonando o repositório $repo em $dest/sf-scripts"
-  git clone $repo $dest/sf-scripts 1> /dev/null
+  git clone $repo $dest/sf-scripts > /dev/null 2> /dev/null
 else
   echo "O diretório $dest/sf-scripts já existe."
   exit
@@ -21,7 +21,7 @@ sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode )
 
 for s in "${sfscripts[@]}"; do
   echo "Criando link simbólico para sf-${s}..."
-  sudo ln -fs $USER/github/$s/sf-$s 2> /dev/null
+  sudo ln -fs /home/$USER/github/$s/sf-$s 2> /dev/null
 done
 
 echo "Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
