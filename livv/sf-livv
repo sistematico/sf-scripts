@@ -17,7 +17,7 @@ command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não est�
 command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
 
 [ $1 ] && PROJECT="$1" || PROJECT="livv"
-LAUNCH="false"
+LAUNCH="true"
 UPGRADE="true"
 TMUX_SESSION="LIVV"
 EDITOR="code"
