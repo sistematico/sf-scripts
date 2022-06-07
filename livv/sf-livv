@@ -22,7 +22,7 @@ UPGRADE="true"
 TMUX_SESSION="LIVV"
 EDITOR="code"
 BROWSER="firefox"
-
+NPM="npm"
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -35,15 +35,21 @@ help() {
 }
 
 upgrade() {
+    read -p "Deseja atualizar o composer, laravel installer e $NPM? [s/N]: " -t 30 response
+    [[ "$response" =~ ^([yY][sS])$ ]] && return
+
     echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
     sudo composer self-update --no-interaction --quiet 2> /dev/null
     echo -e "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
     sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
-    echo -e "[\e[1;35m*\e[0m] Upgrading pnpm..."
-    sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
+    echo -e "[\e[1;35m*\e[0m] Upgrading $NPM..."
+    [ "$NPM" == "npm" ] && sudo npm i -g npm || sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
 }
 
 launch() {
+    read -p "Deseja lançar uma instância do TMUX com o artisan e $NPM rodando a aplicação? [s/N]: " -t 30 response
+    [[ "$response" =~ ^([yY][sS])$ ]] && return
+
     \tmux has-session -t $TMUX_SESSION 2>/dev/null
     [ $? != 0 ] && \tmux kill-session -t $TMUX_SESSION
 
@@ -53,7 +59,7 @@ launch() {
     \tmux new-window -t $TMUX_SESSION -n npm 
 
     \tmux send-keys -t $TMUX_SESSION:artisan "php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:npm "pnpm run dev" ENTER
+    \tmux send-keys -t $TMUX_SESSION:npm "$NPM run dev" ENTER
 
     \tmux detach -s $TMUX_SESSION
 
@@ -68,10 +74,13 @@ existent() {
     test -d .vscode || /usr/bin/mkdir .vscode
     test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
 
-    echo -e "[\e[1;35m*\e[0m] Installing settings.json..."
-    test -f .vscode/settings.json || \
-        curl -sL -o .vscode/settings.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/settings.json
+    read -p "Deseja instalar o settings.json? [s/N]: " -t 10 response
+    if [[ "$response" =~ ^([yY][sS])$ ]]; then
+        echo -e "[\e[1;35m*\e[0m] Installing settings.json..."
+        test -f .vscode/settings.json || \
+            curl -sL -o .vscode/settings.json \
+            https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/settings.json
+    fi
     
     echo -e "[\e[1;35m*\e[0m] Installing tasks.json..."
     test -f .vscode/tasks.json || \
@@ -129,13 +138,13 @@ existent() {
     php artisan storage:link --force -q
 
     echo -e "[\e[1;35m*\e[0m] Running pnpm install..."
-    pnpm install 1> /dev/null 2> /dev/null 
+    $NPM install 1> /dev/null 2> /dev/null 
 }
 
 nonexistent() {
     composer create-project laravel/laravel "$PROJECT"
     cd "$PROJECT"
-    pnpm dlx @preset/cli apply laravel:inertia
+    [ "$NPM" == "npm" ] && npx @preset/cli apply laravel:vite || $NPM dlx @preset/cli apply laravel:inertia
     existent
 }
 
