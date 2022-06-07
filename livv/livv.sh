@@ -1,5 +1,6 @@
-k#!/usr/bin/env bash
+#!/usr/bin/env bash
 
+COMPOSER="/usr/local/bin/composer"
 NPM="npm"
 
 [ ! -f .env ] && cp .env.example .env
@@ -17,12 +18,14 @@ done
 
 if [ "$APP_ENV" == "local" ]; then
   [ ! -L storage/app/musicas ] && ln -s /home/lucas/audio storage/app/musicas
-  composer install
+  $COMPOSER install
   php artisan migrate:fresh --seed
+  #[ "$NPM" == "npm" ] && npx @preset/cli apply laravel:inertia || pnpm dlx @preset/cli apply laravel:inertia
 else
   #[ ! -L storage/app/musicas ] && ln -s /opt/liquidsoap/music storage/app/musicas
-  composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev --force
+  $COMPOSER install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev
   php artisan migrate --seed --force
+  #[ "$NPM" == "npm" ] && npx @preset/cli apply laravel:inertia --force || pnpm dlx @preset/cli apply laravel:inertia --force
 fi
 
 php artisan key:generate 
