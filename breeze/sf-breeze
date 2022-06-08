@@ -13,9 +13,7 @@
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
 # BG: reset = 0, black = 40, red = 41, green = 42, yellow = 43, blue = 44, magenta = 45, cyan = 46, white=47
 
-command -v pnpm &> /dev/null || (echo -e "O programa \e[1;31mpnpm\e[0m não está instalado, instale-o primeiro." && exit)
-command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
-
+NPM="npm"
 PROJECT="laravel-breeze"
 SSR="--ssr"
 TEAMS="" # --teams
@@ -24,8 +22,13 @@ UPGRADE="true"
 TMUX_SESSION="Breeze"
 EDITOR="code"
 BROWSER="firefox"
-URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap"
+URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze"
 COMMON="https://raw.githubusercontent.com/sistematico/sf-scripts/main/common"
+
+command -v dialog &> /dev/null || (echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro." && exit)
+command -v php &> /dev/null || (echo -e "O programa \e[1;31mphp\e[0m não está instalado, instale-o primeiro." && exit)
+command -v ${NPM} &> /dev/null || (echo -e "O programa \e[1;31m${NPM}\e[0m não está instalado, instale-o primeiro." && exit)
+command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -38,6 +41,9 @@ help() {
 }
 
 upgrade() {
+    read -p "Deseja atualizar o composer, laravel installer e ${NPM}? [s/N]: " -t 10 response
+    [[ "$response" =~ ^([yY]|[sS])$ ]] || return
+
     echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
     sudo composer self-update --no-interaction --quiet 2> /dev/null
     echo -e "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
@@ -70,8 +76,8 @@ build() {
 
     rm -rf node_modules package-lock.json
     
-    pnpm install 1> /dev/null 2> /dev/null 
-    pnpm dev
+    $NPM install 1> /dev/null 2> /dev/null 
+    $NPM run dev
 
     php artisan migrate:fresh --seed --force -q
     php artisan key:generate
@@ -83,88 +89,91 @@ setup() {
 
     cd "$PROJECT"
 
-    # answer=$(dialog --checklist "Selecione as configurações que deseja instalar:" 0 0 0 \
-    #     1 VSCode on \
-    #     2 java on \
-    #     3 git off \
-    #     --output-fd 1)
-
     answer=$(dialog --stdout --keep-tite \
-    --backtitle "Twitter Bootstrap 5" \
-    --title "Twitter Bootstrap Template" \
-    --checklist "Escolha template" 17 45 50 \
+        --backtitle "Laravel Breeze" \
+        --title "Laravel Breeze Config Files" \
+        --checklist "Escolha as configs que deseja instalar:" 17 45 50 \
         "Visual Studio Code" "" ON \
-        "Ansible" "" ON \
-        "Laravel .env" "" ON \
-        "Editar a si mesmo" "" OFF --output-fd 1)
+        "Ansible"            "" ON \
+        "Github WorkFlows"   "" ON \
+        "Laravel .env"       "" ON \
+        ".gitignore"         "" ON \
+        "Prettier"           "" ON \
+        --output-fd 1)
 
-
-
-
-    if [[ $answer =~ "My" ]]; then
-
-    fi
-
-    #exit
 
     test -f database/database.sqlite || touch database/database.sqlite
-    test -d .vscode || /usr/bin/mkdir .vscode
-    test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
 
-    # .gitignore
-    test -f .gitignore || \
-        curl -sL -o .gitignore \
-        $COMMON/gitignore
+    if [[ $answer =~ ".gitignore" ]]; then
+        # .gitignore
+        test -f .gitignore || \
+            curl -sL -o .gitignore \
+            $COMMON/gitignore
+    fi
 
-    # Prettier
-    test -f .prettierrc.json || \
-        curl -sL -o .prettierrc.json \
-        $COMMON/.prettierrc.json
+    if [[ $answer =~ "Prettier" ]]; then
+        # Prettier
+        test -f .prettierrc.json || \
+            curl -sL -o .prettierrc.json \
+            $COMMON/.prettierrc.json
+    fi
 
-    # VSCode Settings
     if [[ $answer =~ "Visual" ]]; then
+        # VSCode Settings
+        test -d .vscode || /usr/bin/mkdir .vscode
+
         test -f .vscode/settings.json || \
             curl -sL -o .vscode/settings.json \
             $COMMON/settings.json
+
+        # VSCode Tasks
+        test -f .vscode/tasks.json || \
+            curl -sL -o .vscode/tasks.json \
+            $URL/tasks.json
     fi
 
     # Ansible
     if [[ $answer =~ "Ansible" ]]; then
-    test -f ansible.sh || \
-        curl -sL -o ansible.sh \
-        $COMMON/ansible.sh
+        test -f ansible.sh || \
+            curl -sL -o ansible.sh \
+            $COMMON/ansible.sh
+
+        chmod +x ansible.sh
+    
+        test -f ansible.yml || \
+            curl -sL -o ansible.yml \
+            $URL/ansible.yml
     fi
 
-    # VSCode Tasks
-    test -f .vscode/tasks.json || \
-        curl -sL -o .vscode/tasks.json \
-        $URL/tasks.json
+    if [[ $answer =~ "Github" ]]; then
+        # Github Workflows
+        test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
 
-    test -f ansible.yml || \
-        curl -sL -o ansible.yml \
-        $URL/ansible.yml
+        test -f .github/workflows/jetstream.yml || \
+            curl -sL -o .github/workflows/jetstream.yml \
+            $URL/jetstream.yml
+    fi
 
-    # Github Workflows
-    test -f .github/workflows/jetstream.yml || \
-        curl -sL -o .github/workflows/jetstream.yml \
-        $URL/jetstream.yml
+    if [[ $answer =~ "Laravel" ]]; then
+        # Laravel .env
+        test -f .env || \
+            curl -sL -o .env \
+            $URL/.env
 
-    # Laravel .env
-    test -f .env || \
-        curl -sL -o .env \
-        $URL/.env
+        # Laravel .env.example
+        test -f .env.example || \
+            curl -sL -o .env.example \
+            $URL/.env.example
+    fi
 
-    # Laravel .env.example
-    test -f .env.example || \
-        curl -sL -o .env.example \
-        $URL/.env.example
+    if [[ $answer =~ "Laravel" ]]; then
+        # Build Script
+        test -f breeze.sh || \
+            curl -sL -o breeze.sh \
+            $URL/breeze.sh
 
-    # Build Script
-    test -f laravel.sh || \
-        curl -sL -o laravel.sh \
-        $URL/breeze.sh
-
-    chmod +x ansible.sh laravel.sh
+        chmod +x breeze.sh
+    fi
 
     composer require laravel/jetstream
     php artisan jetstream:install inertia $SSR $TEAMS
