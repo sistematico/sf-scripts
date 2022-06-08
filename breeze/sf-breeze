@@ -83,6 +83,30 @@ setup() {
 
     cd "$PROJECT"
 
+    # answer=$(dialog --checklist "Selecione as configurações que deseja instalar:" 0 0 0 \
+    #     1 VSCode on \
+    #     2 java on \
+    #     3 git off \
+    #     --output-fd 1)
+
+    answer=$(dialog --stdout --keep-tite \
+    --backtitle "Twitter Bootstrap 5" \
+    --title "Twitter Bootstrap Template" \
+    --checklist "Escolha template" 17 45 50 \
+        "Visual Studio Code" "" ON \
+        "Ansible" "" ON \
+        "Laravel .env" "" ON \
+        "Editar a si mesmo" "" OFF --output-fd 1)
+
+
+
+
+    if [[ $answer =~ "My" ]]; then
+
+    fi
+
+    #exit
+
     test -f database/database.sqlite || touch database/database.sqlite
     test -d .vscode || /usr/bin/mkdir .vscode
     test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
@@ -98,14 +122,18 @@ setup() {
         $COMMON/.prettierrc.json
 
     # VSCode Settings
-    test -f .vscode/settings.json || \
-        curl -sL -o .vscode/settings.json \
-        $COMMON/settings.json
+    if [[ $answer =~ "Visual" ]]; then
+        test -f .vscode/settings.json || \
+            curl -sL -o .vscode/settings.json \
+            $COMMON/settings.json
+    fi
 
     # Ansible
+    if [[ $answer =~ "Ansible" ]]; then
     test -f ansible.sh || \
         curl -sL -o ansible.sh \
         $COMMON/ansible.sh
+    fi
 
     # VSCode Tasks
     test -f .vscode/tasks.json || \
