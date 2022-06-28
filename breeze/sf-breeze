@@ -168,11 +168,11 @@ setup() {
 
     if [[ $answer =~ "Laravel" ]]; then
         # Build Script
-        test -f breeze.sh || \
-            curl -sL -o breeze.sh \
-            $URL/breeze.sh
+        test -f build.sh || \
+            curl -sL -o build.sh \
+            $COMMON/build.sh
 
-        chmod +x breeze.sh
+        chmod +x build.sh
     fi
 
     composer require laravel/jetstream

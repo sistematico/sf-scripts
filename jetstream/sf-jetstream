@@ -23,6 +23,8 @@ UPGRADE="true"
 TMUX_SESSION="Vite"
 EDITOR="code"
 BROWSER="firefox"
+URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/jetstream"
+COMMON="https://raw.githubusercontent.com/sistematico/sf-scripts/main/common"
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -128,7 +130,7 @@ setup() {
     # Build Script
     test -f build.sh || \
         curl -sL -o build.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel-jetstream/build.sh
+        $COMMON/build.sh
 
     chmod +x ansible.sh build.sh
 
