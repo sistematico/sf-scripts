@@ -18,6 +18,10 @@ jobs:
         source: "."
         target: ${{ secrets.PROJECT_PATH }}
 
+  build:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
@@ -27,4 +31,5 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ secrets.PROJECT_PATH }}
-          bash vite.sh
+          pnpm run install
+          pnpm run build

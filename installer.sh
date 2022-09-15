@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-repo="https://github.com/sistematico/sf-scripts"
-examples="https://github.com/sistematico/tailwind-examples"
+repo="git@github.com:sistematico/sf-scripts.git"
+examples="git@github.com:sistematico/tailwind-examples.git"
 dest="$HOME/github"
 
 [ $EUID -eq 0 ] && echo "Este script não pode rodar como root." && exit
@@ -16,9 +16,11 @@ else
   exit
 fi
 
-if [ ! -d $dest/sf-scripts ]; then
+if [ ! -d $dest/tailwind-examples ]; then
   echo "Clonando o repositório $examples em $dest/tailwind-examples"
   git clone $examples $dest/tailwind-examples > /dev/null 2> /dev/null
+else
+  echo "O diretório $dest/tailwind-examples já existe."
 fi
 
 cd /usr/local/bin/
@@ -32,15 +34,15 @@ done
 
 # Upgrade
 echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
-sudo composer self-update --no-interaction --quiet 2> /dev/null
+composer self-update --no-interaction --quiet 2> /dev/null
 
 echo -e "[\e[1;35m*\e[0m] Upgrading npm..."
 sudo npm install npm -g 2> /dev/null
 
 echo -e "[\e[1;35m*\e[0m] Upgrading pnpm..."
-sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
+pnpm add -g pnpm 1> /dev/null 2> /dev/null
 
 echo -e "[\e[1;35m*\e[0m] Upgrading Laravel Installer..."
-sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
+composer global require laravel/installer --no-interaction --quiet 2> /dev/null
 
-echo "Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
+echo "[\e[1;30m*\e[0m] Instalação concluida, use sf-[SCRIPT] e crie algo novo!"

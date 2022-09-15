@@ -18,6 +18,10 @@ jobs:
         source: "."
         target: ${{ secrets.PROJECT_PATH }}
 
+  build:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       with:
