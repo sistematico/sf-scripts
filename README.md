@@ -3,7 +3,7 @@
 ## Instalação
 
 ```bash
-bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/installer.sh)
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/install.sh)
 ```
 
 ## Uso
@@ -38,10 +38,16 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 
 #### Vite
 
-##### Vite + Vue.js 3 using TypeScript
+##### Vite + Vue.js 3
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/sf-vite)
+```
+
+##### Vite + Vue.js 3 using TypeScript
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite-ts/sf-vite)
 ```
 
 ### Twitter Bootstrap 5

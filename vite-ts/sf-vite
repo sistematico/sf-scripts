@@ -14,7 +14,7 @@ BROWSER="firefox"
 LAUNCH="true"
 TMUX_SESSION="Vite"
 
-[ ! -d $PROJECT ] && pnpm create vite $PROJECT -- --template vue
+[ ! -d $PROJECT ] && pnpm create vite $PROJECT -- --template vue-ts
 
 cd $PROJECT
 
@@ -34,17 +34,17 @@ test -f .vscode/settings.json || \
 # VSCode Recommendations
 test -f .vscode/extensions.json || \
     curl -sLo .vscode/extensions.json \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/extensions.json
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite-ts/extensions.json
 
 # VSCode Tasks
 test -f .vscode/tasks.json || \
     curl -sLo .vscode/tasks.json \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/tasks.json
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite-ts/tasks.json
 
 # Github Workflows
-test -f .github/workflows/cd.yml || \
-    curl -sLo .github/workflows/cd.yml \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/vite-cd.yml
+test -f .github/workflows/pages.yml || \
+    curl -sLo .github/workflows/pages.yml \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/vite-pages.yml
 
 pnpm install 1> /dev/null
 

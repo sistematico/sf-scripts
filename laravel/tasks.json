@@ -15,7 +15,19 @@
         "runOn": "folderOpen"
       },
       "presentation": {
-        "reveal": "never",
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Artisan Migrate Fresh",
+      "type": "shell",
+      "command": "php",
+      "detail": "php artisan migrate:fresh",
+      "group": "none",
+      "args": ["artisan", "migrate:fresh"],
+      "presentation": {
+        "reveal": "always",
         "panel": "new"
       }
     },
@@ -24,13 +36,22 @@
       "type": "npm",
       "script": "dev",
       "problemMatcher": [],
-      "detail": "pnpm dev",
+      "detail": "pnpm run dev",
       "group": "none",
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
       "presentation": {
-        "reveal": "never",
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "pnpm install",
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": [],
+      "detail": "pnpm install",
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
         "panel": "new"
       }
     }

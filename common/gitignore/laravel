@@ -1,5 +1,5 @@
-/public/build
 /node_modules
+/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -9,8 +9,10 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 pnpm-debug.log
 yarn-error.log
 /.idea
+/.vscode
 .commit

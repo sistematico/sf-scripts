@@ -17,8 +17,8 @@ test -f .vscode/tasks.json || \
 
 test -f .vscode/settings.json || \
     curl -sL -o .vscode/settings.json \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vscode/settings.json
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/settings.json
 
 test -f .github/workflows/ci.yml || \
     curl -sL -o .github/workflows/ci.yml \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/vscode/ci.yml
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/pages.yml

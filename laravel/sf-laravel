@@ -7,7 +7,7 @@
 # - "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # 
 # Criado em: 23/09/2021 01:33:12
-# Atualizado: 26/04/2022 18:15:36
+# Atualizado: 30/09/2022 12:07:24
 #
 # Referência:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -15,10 +15,11 @@
 
 PROJECT="$(pwd)/laravel"
 TMUX_SESSION="Laravel"
-LAUNCH="true"
+LAUNCH="false"
 BROWSER="firefox"
 
-[ ! -f $PROJECT/artisan ] && laravel new $PROJECT
+[ $1 ] && PROJECT=$1
+[ ! -e $PROJECT ] && composer create-project laravel/laravel $PROJECT
 
 cd $PROJECT
 
@@ -47,18 +48,21 @@ test -f .github/workflows/laravel.yml || \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/laravel.yml
 
 # Laravel .env
-#test -f .env || \
+test -f .env || \
+    read -p "Substituir o arquivo .env? [s/N]: " substituir
+    
+    [ "$substituir" == *[sS]* ] && \    
     curl -sL -o .env \
     https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env
-# Laravel .env.example
-#test -f .env.example || \
-    curl -sL -o .env.example \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env.example
 
-pnpm add webpack -D
-pnpm install
-pnpm run dev
-pnpm run dev
+# Laravel .env.example
+test -f .env.example && \
+    read -p "Substituir o arquivo .env.example? [s/N]: " substituir
+
+    [ "$substituir" == *[sS]* ] && \
+        curl -sL -o .env.example \
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/.env.example
+
 php artisan migrate:fresh --seed --force
 php artisan key:generate
 php artisan storage:link
@@ -72,10 +76,8 @@ if [ "$LAUNCH" == "true" ]; then
     \tmux new-session -d -s $TMUX_SESSION
         
     \tmux new-window -t $TMUX_SESSION -n artisan -d
-    \tmux new-window -t $TMUX_SESSION -n pnpm -d
 
-    \tmux send-keys -t $TMUX_SESSION:artisan "cd $PROJECT ; php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm watch" ENTER
+    \tmux send-keys -t $TMUX_SESSION:artisan "cd $PROJECT ; pnpm run dev ; php artisan serve" ENTER
 
     \tmux detach -s $TMUX_SESSION
 fi
