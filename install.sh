@@ -13,7 +13,6 @@ if [ ! -d $dest/sf-scripts ]; then
   git clone $repo $dest/sf-scripts > /dev/null 2> /dev/null
 else
   echo "O diretório $dest/sf-scripts já existe."
-  exit
 fi
 
 if [ ! -d $dest/tailwind-examples ]; then
@@ -28,21 +27,21 @@ cd /usr/local/bin/
 sfscripts=( bootstrap breeze html jetstream laravel livv vite vscode ) 
 
 for s in "${sfscripts[@]}"; do
-  echo "Criando link simbólico para sf-${s}..."
-  sudo ln -fs /home/$USER/github/sf-scripts/$s/sf-$s 2> /dev/null
+  echo -e "[\e[1;35m*\e[0m] Criando link simbólico para sf-${s}..."
+  sudo ln -fs $HOME/github/sf-scripts/$s/sf-$s 2> /dev/null
 done
 
 # Upgrade
-echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
+echo -e "[\e[1;35m*\e[0m] Atualizando o Composer..."
 composer self-update --no-interaction --quiet 2> /dev/null
 
-echo -e "[\e[1;35m*\e[0m] Upgrading npm..."
-sudo npm install npm -g 2> /dev/null
+echo -e "[\e[1;35m*\e[0m] Atualizando o npm..."
+sudo npm install npm -g 1> /dev/null 2> /dev/null
 
-echo -e "[\e[1;35m*\e[0m] Upgrading pnpm..."
+echo -e "[\e[1;35m*\e[0m] Atualizando o pnpm..."
 pnpm add -g pnpm 1> /dev/null 2> /dev/null
 
-echo -e "[\e[1;35m*\e[0m] Upgrading Laravel Installer..."
+echo -e "[\e[1;35m*\e[0m] Atualizando o Laravel Installer..."
 composer global require laravel/installer --no-interaction --quiet 2> /dev/null
 
-echo "[\e[1;30m*\e[0m] Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
+echo -e "[\e[1;30m*\e[0m] Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
