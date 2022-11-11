@@ -19,10 +19,10 @@ command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m n
 [ $1 ] && PROJECT="$1" || PROJECT="livv"
 LAUNCH="true"
 UPGRADE="true"
-TMUX_SESSION="LIVV"
+TMUX_SESSION="livv"
 EDITOR="code"
 BROWSER="firefox"
-NPM="npm"
+NPM="/usr/bin/pnpm"
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -110,24 +110,24 @@ existent() {
     echo -e "[\e[1;35m*\e[0m] Installing ansible.sh..."
     test -f ansible.sh || \
         curl -sL -o ansible.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/ansible.sh
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.sh
 
     echo -e "[\e[1;35m*\e[0m] Installing ansible.yml..."
     test -f ansible.yml || \
         curl -sL -o ansible.yml \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/ansible.yml
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.yml
 
     echo -e "[\e[1;35m*\e[0m] Installing livv.sh..."
     test -f livv.sh || \
-        curl -sL -o livv.sh \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/livv.sh
+        curl -sL -o sf-livv \
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv
 
     echo -e "[\e[1;35m*\e[0m] Installing .gitignore..."
     test -f .gitignore || \
         curl -sL -o .gitignore \
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.gitignore
 
-    chmod +x ansible.sh livv.sh
+    chmod +x ansible.sh sf-livv
 
     echo -e "[\e[1;35m*\e[0m] Running composer install..."
     composer install 1> /dev/null 2> /dev/null

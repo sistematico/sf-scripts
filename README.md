@@ -12,57 +12,69 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 
 #### Laravel
 
-##### Laravel(raw)
+##### [Laravel](https://github.com/sistematico/sf-scripts/laravel)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/laravel/sf-laravel)
 ```
 
-##### Laravel Jetstream
+##### [Laravel Jetstream](https://github.com/sistematico/sf-scripts/jetstream)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/jetstream/sf-jetstream)
 ```
 
-##### Laravel Breeze Vue
+##### [Laravel Breeze Vue](https://github.com/sistematico/sf-scripts/breeze)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze/sf-breeze)
 ```
 
-##### Laravel, Inertia.js, Vite.js, Vue.js 3 and TypeScript Stack
+##### [Laravel, Inertia.js, Vite, Vue.js 3 Stack](https://github.com/sistematico/sf-scripts/livv)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv)
 ```
 
+##### [Laravel, Inertia.js, Vite.js, Vue.js 3 e TypeScript Stack](https://github.com/sistematico/sf-scripts/livv-ts)
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv-ts/sf-livv-ts)
+```
+
 #### Vite
 
-##### Vite + Vue.js 3
+##### [Vite + Vue.js 3](https://github.com/sistematico/sf-scripts/vite)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite/sf-vite)
 ```
 
-##### Vite + Vue.js 3 using TypeScript
+##### [Vite + Vue.js 3 usando TypeScript](https://github.com/sistematico/sf-scripts/vite-ts)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite-ts/sf-vite)
 ```
 
-### Twitter Bootstrap 5
+#### HTML
 
-```bash
-bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap/sf-bootstrap)
-```
-
-#### HTML Skeletons
+##### [HTML Skeletons](https://github.com/sistematico/sf-scripts/html)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/html/sf-html)
 ```
 
-#### VS Code
+#### Twitter Bootstrap
+
+##### [Twitter Bootstrap 5](https://github.com/sistematico/sf-scripts/bootstrap)
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap/sf-bootstrap)
+```
+
+#### Visual Studio Code
+
+##### [VS Code Workspace](https://github.com/sistematico/sf-scripts/vscode)
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vscode/sf-vscode)
@@ -74,6 +86,7 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 - [Laravel](https://laravel.com)
 - [Vue.js](https://vuejs.org)
 - [Vite.js](https://vite.dev)
+- [Inertia.js](https://inertiajs.com)
 
 ## Contato
 
