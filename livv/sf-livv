@@ -79,33 +79,33 @@ existent() {
         echo -e "[\e[1;35m*\e[0m] Installing settings.json..."
         test -f .vscode/settings.json || \
             curl -sL -o .vscode/settings.json \
-            https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/settings.json
+            https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.vscode/settings.json
     fi
     
     echo -e "[\e[1;35m*\e[0m] Installing tasks.json..."
     test -f .vscode/tasks.json || \
         curl -sL -o .vscode/tasks.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/tasks.json
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.vscode/tasks.json
 
     echo -e "[\e[1;35m*\e[0m] Installing livv.yml..."
     test -f .github/workflows/livv.yml || \
         curl -sL -o .github/workflows/livv.yml \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/livv.yml    
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.github/workflows/livv.yml    
 
     echo -e "[\e[1;35m*\e[0m] Installing .prettierrc.json..."
     test -f .prettierrc.json || \
         curl -sL -o .prettierrc.json \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.prettierrc.json
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/.prettierrc.json
 
     echo -e "[\e[1;35m*\e[0m] Installing .env..."
     test -f .env || \
         curl -sL -o .env \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.env
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.env
 
     echo -e "[\e[1;35m*\e[0m] Installing .env.example..."
     test -f .env.example || \
         curl -sL -o .env.example \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.env.example
+        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.env.example
 
     echo -e "[\e[1;35m*\e[0m] Installing ansible.sh..."
     test -f ansible.sh || \
