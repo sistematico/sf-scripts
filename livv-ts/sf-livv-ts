@@ -142,18 +142,6 @@ existent() {
 
     chmod +x ansible.sh sf-livv
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mKernel.php\e[0m..."
-    curl -sL -o app/Http/Kernel.php \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/app/Http/Kernel.php
-
-    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mapp.js\e[0m..."
-    curl -sL -o resources/js/app.js \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/resources/js/app.js
-
-    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mapp.blade.php\e[0m..."
-    curl -sL -o resources/js/app.js \
-        https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/resources/views/app.blade.php
-
     echo -e "[\e[1;35m*\e[0m] Rodando o \e[1;35mcomposer install\e[0m..."
     composer install 1>/dev/null 2>/dev/null
 
@@ -179,8 +167,7 @@ existent() {
 nonexistent() {
     composer create-project laravel/laravel "$PROJECT"
     cd "$PROJECT"
-    composer require inertiajs/inertia-laravel
-    php artisan inertia:middleware
+    [ "$NPM" == "npm" ] && npx @preset/cli apply laravel:vite || $NPM dlx @preset/cli apply laravel:inertia
     existent
 }
 

@@ -10,17 +10,17 @@ dest="$HOME/github"
 [ ! -d $dest ] && mkdir $dest
 
 if [ ! -d $dest/sf-scripts ]; then
-    echo "Clonando o repositório $repo em $dest/sf-scripts"
+    echo -e "[\e[1;33m*\e[0m] Clonando o repositório $repo em $dest/sf-scripts..."
     git clone $repo $dest/sf-scripts >/dev/null 2>/dev/null
 else
-    echo "O diretório $dest/sf-scripts já existe."
+    echo -e "[\e[1;34m*\e[0m] O diretório $dest/sf-scripts já existe."
 fi
 
 if [ ! -d $dest/tailwind-examples ]; then
-    echo "Clonando o repositório $examples em $dest/tailwind-examples"
+    echo -e "[\e[1;33m*\e[0m] Clonando o repositório $examples em $dest/tailwind-examples..."
     git clone $examples $dest/tailwind-examples >/dev/null 2>/dev/null
 else
-    echo "O diretório $dest/tailwind-examples já existe."
+    echo -e "[\e[1;34m*\e[0m] O diretório $dest/tailwind-examples já existe."
 fi
 
 cd /usr/local/bin/
@@ -47,4 +47,4 @@ if [ $upgrade -eq 1 ]; then
     composer global require laravel/installer --no-interaction --quiet 2>/dev/null
 fi
 
-echo -e "[\e[1;30m*\e[0m] Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
+echo -e "[\e[1;36m*\e[0m] Instalação concluida, use sf-[SCRIPT] e crie algo novo!"
