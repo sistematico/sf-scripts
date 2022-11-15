@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    repo:   "https://github.com/sistematico/somdomato.com.git"
+    branch: "main"
+    dest:   "/var/www/somdomato.com"
+    user:   "nginx"
+    group:  "nginx"
+
+  tasks:
+    - name: "Chown /var/www directory"
+      file:
+        dest: /var/www
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        recurse: yes
+
+    - name: Install dependencies
+      package:
+        update_cache: yes
+        name: git
+
+    - name: "Check if {{ dest }} exists"
+      stat:
+        path: "{{ dest }}"
+      register: dest_dir
+
+    - name: "Pull latest changes"
+      shell: |
+        git reset --hard
+        git pull
+      args:
+        chdir: "{{ dest }}"
+      become: yes
+      become_user: "{{ user }}"
+      when: dest_dir.stat.exists
+
+    - name: "Clone a private repository into project folder"
+      git:
+        repo: "{{ repo }}"
+        dest: "{{ dest }}"
+        version: "{{ branch }}"
+        accept_hostkey: yes
+        force: yes
+        update: yes
+      become: yes
+      become_user: "{{ user }}"
+      when: not dest_dir.stat.exists
+
+    - name: Run scaffolding script
+      script: build.sh
+      args:
+        executable: bash
+        chdir: "{{ dest }}"
+      become: yes
+      become_user: "{{ user }}"

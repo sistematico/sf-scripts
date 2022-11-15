@@ -7,7 +7,7 @@
 # Demo: https://www.gettr.com/post/pgjgwb394b
 #
 # Criado em: 23/09/2021 01:33:12
-# Atualizado: 20/05/2022 17:50:39
+# Atualizado: 15/11/2022 07:35:29
 #
 # Referência de cores:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -22,7 +22,10 @@ LAUNCH="true"
 TMUX_SESSION="livv"
 EDITOR="${VISUAL:-code}"
 BROWSER="${BROWSER:-firefox}"
+COMPOSER="$(which composer)"
 NPM="/usr/bin/pnpm"
+TMUX="/usr/bin/tmux"
+PHP="$(which php)"
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -36,42 +39,39 @@ help() {
 
 upgrade() {
     echo -e "[\e[1;33m*\e[0m] Atualizando o Composer..."
-    sudo composer self-update --no-interaction --quiet 2>/dev/null
+    sudo $COMPOSER -q self-update --no-interaction --quiet 2>/dev/null
     echo -e "[\e[1;33m*\e[0m] Atualizando o Instalador do Laravel..."
-    sudo composer global require laravel/installer --no-interaction --quiet 2>/dev/null
+    sudo $COMPOSER -q global require laravel/installer --no-interaction --quiet 2>/dev/null
     echo -e "[\e[1;33m*\e[0m] Atualizando o $NPM..."
     [ "$NPM" == "npm" ] && sudo npm i -g npm || pnpm add -g pnpm 1>/dev/null 2>/dev/null
 }
 
 prune() {
-    php artisan cache:clear
-    php artisan config:clear
-    php artisan route:clear
-    php artisan view:clear
+    $PHP artisan cache:clear
+    $PHP artisan config:clear
+    $PHP artisan route:clear
+    $PHP artisan view:clear
 }
 
 optimize() {
-    php artisan config:cache
-    php artisan route:cache
-    php artisan view:cache
+    $PHP artisan config:cache
+    $PHP artisan route:cache
+    $PHP artisan view:cache
 }
 
 launch() {
-    #read -p "Deseja lançar uma instância do TMUX com o artisan e $NPM rodando a aplicação? [s/N]: " -t 30 response
-    #[[ "$response" =~ ^([yY][sS])$ ]] && return
+    $TMUX has-session -t $TMUX_SESSION 2>/dev/null
+    [ $? == 0 ] && $TMUX kill-session -t $TMUX_SESSION
 
-    \tmux has-session -t $TMUX_SESSION 2>/dev/null
-    [ $? != 0 ] && \tmux kill-session -t $TMUX_SESSION
+    $TMUX new-session -d -s $TMUX_SESSION 2>/dev/null
 
-    \tmux new-session -d -s $TMUX_SESSION 2>/dev/null
+    $TMUX new-window -t $TMUX_SESSION -n artisan
+    $TMUX new-window -t $TMUX_SESSION -n pnpm
 
-    \tmux new-window -t $TMUX_SESSION -n artisan
-    \tmux new-window -t $TMUX_SESSION -n npm
+    $TMUX send-keys -t $TMUX_SESSION:artisan "$PHP artisan serve" ENTER
+    $TMUX send-keys -t $TMUX_SESSION:pnpm "$NPM run dev" ENTER
 
-    \tmux send-keys -t $TMUX_SESSION:artisan "php artisan serve" ENTER
-    \tmux send-keys -t $TMUX_SESSION:npm "$NPM run dev" ENTER
-
-    \tmux detach -s $TMUX_SESSION
+    $TMUX detach -s $TMUX_SESSION
 
     $BROWSER http://localhost:8000
 }
@@ -81,28 +81,25 @@ existent() {
 
     test -d database || mkdir database
     test -f database/database.sqlite || touch database/database.sqlite
-    test -d .vscode || /usr/bin/mkdir .vscode
-    test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
+    test -d .vscode || mkdir .vscode
+    test -d .github/workflows || mkdir -p .github/workflows
 
-    read -p "Deseja instalar o settings.json? [s/N]: " -t 10 response
-    if [[ $response =~ ^([yY][sS])$ ]]; then
-        echo -e "[\e[1;35m*\e[0m] Instalando o settings.json..."
-        test -f .vscode/settings.json ||
-            curl -sL -o .vscode/settings.json \
-                https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.vscode/settings.json
-    fi
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35msettings.json\e[0m..."
+    test -f .vscode/settings.json ||
+        curl -sL -o .vscode/settings.json \
+            https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.vscode/settings.json
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o tasks.json..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mtasks.json\e[0m..."
     test -f .vscode/tasks.json ||
         curl -sL -o .vscode/tasks.json \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.vscode/tasks.json
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o livv.yml..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mlivv.yml\e[0m (Github Actions)..."
     test -f .github/workflows/livv.yml ||
         curl -sL -o .github/workflows/livv.yml \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.github/workflows/livv.yml
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o .prettierrc.json..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35m.prettierrc.json\e[0m..."
     test -f .prettierrc.json ||
         curl -sL -o .prettierrc.json \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/.prettierrc.json
@@ -117,27 +114,10 @@ existent() {
         curl -sL -o .env.example \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.env.example
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mansible.sh\e[0m..."
-    test -f ansible.sh ||
-        curl -sL -o ansible.sh \
-            https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.sh
-
-    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mansible.yml\e[0m..."
-    test -f ansible.yml ||
-        curl -sL -o ansible.yml \
-            https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.yml
-
-    echo -e "[\e[1;35m*\e[0m] Instalando o livv.sh..."
-    test -f livv.sh ||
-        curl -sL -o sf-livv \
-            https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv
-
     echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35m.gitignore\e[0m..."
     test -f .gitignore ||
         curl -sL -o .gitignore \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.gitignore
-
-    chmod +x ansible.sh sf-livv
 
     echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mKernel.php\e[0m..."
     curl -sL -o app/Http/Kernel.php \
@@ -148,17 +128,22 @@ existent() {
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/resources/js/app.js
 
     echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mapp.blade.php\e[0m..."
-    curl -sL -o resources/js/app.js \
+    curl -sL -o resources/views/app.blade.php \
         https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/resources/views/app.blade.php
 
-    echo -e "[\e[1;35m*\e[0m] Rodando o \e[1;35mcomposer install\e[0m..."
-    composer install 1>/dev/null 2>/dev/null
+    echo -e "[\e[1;35m*\e[0m] Rodando o \e[1;35m$COMPOSER install\e[0m..."
+    $COMPOSER -q install
 
     echo -e "[\e[1;35m*\e[0m] Rodando as tarefas do artisan..."
 
-    php artisan migrate:fresh --seed --force -q
-    php artisan key:generate --force -q
-    php artisan storage:link --force -q
+    echo -e "[\e[1;36m*\e[0m] Rodando o php artisan migrate:fresh..."
+    $PHP artisan migrate:fresh --seed --force -q
+    
+    echo -e "[\e[1;36m*\e[0m] Rodando o php artisan key:generate..."
+    $PHP artisan key:generate --force -q
+    
+    echo -e "[\e[1;36m*\e[0m] Rodando o php artisan storage:link..."
+    $PHP artisan storage:link --force -q
 
     echo -e "[\e[1;35m*\e[0m] Rodando o \e[1;35mpnpm install\e[0m..."
     $NPM install 1> /dev/null 2> /dev/null
@@ -166,10 +151,10 @@ existent() {
 
 nonexistent() {
     echo -e "[\e[1;35m*\e[0m] Criando um projeto limpo do \e[1;35mLaravel\e[0m..."
-    composer create-project laravel/laravel "$PROJECT" 1> /dev/null
+    $COMPOSER -q create-project laravel/laravel "$PROJECT"
     cd "$PROJECT"
-    composer require inertiajs/inertia-laravel > /dev/null
-    php artisan inertia:middleware
+    $COMPOSER -q require inertiajs/inertia-laravel
+    $PHP artisan inertia:middleware
     existent
 }
 
