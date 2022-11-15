@@ -107,22 +107,22 @@ existent() {
         curl -sL -o .prettierrc.json \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/.prettierrc.json
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o .env..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35m.env\e[0m..."
     test -f .env ||
         curl -sL -o .env \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.env
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o .env.example..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35m.env.example\e[0m..."
     test -f .env.example ||
         curl -sL -o .env.example \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/stub/.env.example
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o ansible.sh..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mansible.sh\e[0m..."
     test -f ansible.sh ||
         curl -sL -o ansible.sh \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.sh
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o ansible.yml..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35mansible.yml\e[0m..."
     test -f ansible.yml ||
         curl -sL -o ansible.yml \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/ansible.yml
@@ -132,7 +132,7 @@ existent() {
         curl -sL -o sf-livv \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv
 
-    echo -e "[\e[1;35m*\e[0m] Instalando o .gitignore..."
+    echo -e "[\e[1;35m*\e[0m] Instalando o \e[1;35m.gitignore\e[0m..."
     test -f .gitignore ||
         curl -sL -o .gitignore \
             https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/.gitignore
@@ -166,7 +166,7 @@ existent() {
 
 nonexistent() {
     echo -e "[\e[1;35m*\e[0m] Criando um projeto limpo do \e[1;35mLaravel\e[0m..."
-    composer create-project laravel/laravel "$PROJECT" > /dev/null
+    composer create-project laravel/laravel "$PROJECT" 1> /dev/null
     cd "$PROJECT"
     composer require inertiajs/inertia-laravel > /dev/null
     php artisan inertia:middleware
