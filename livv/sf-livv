@@ -134,7 +134,7 @@ existent() {
     echo -e "[\e[1;35m*\e[0m] Rodando o \e[1;35m$COMPOSER install\e[0m..."
     $COMPOSER -q install
 
-    echo -e "[\e[1;35m*\e[0m] Rodando as tarefas do artisan..."
+    echo -e "[\e[1;33m*\e[0m] Rodando as tarefas do artisan..."
 
     echo -e "[\e[1;36m*\e[0m] Rodando o php artisan migrate:fresh..."
     $PHP artisan migrate:fresh --seed --force -q
@@ -154,7 +154,7 @@ nonexistent() {
     $COMPOSER -q create-project laravel/laravel "$PROJECT"
     cd "$PROJECT"
     $COMPOSER -q require inertiajs/inertia-laravel
-    $PHP artisan inertia:middleware
+    $PHP artisan inertia:middleware > /dev/null
     existent
 }
 

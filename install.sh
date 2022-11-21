@@ -5,9 +5,10 @@ repo="git@github.com:sistematico/sf-scripts.git"
 examples="git@github.com:sistematico/tailwind-examples.git"
 dest="$HOME/github"
 
-[ $EUID -eq 0 ] && echo "Este script não pode rodar como root." && exit
+[ $EUID -eq 0 ] && orig=/usr/local/bin || orig=$HOME/.local/bin
 
-[ ! -d $dest ] && mkdir $dest
+[ ! -d $dest ] && \mkdir -p $dest
+[ ! -d $orig ] && \mkdir -p $orig
 
 if [ ! -d $dest/sf-scripts ]; then
     echo -e "[\e[1;33m*\e[0m] Clonando o repositório $repo em $dest/sf-scripts..."
@@ -23,7 +24,7 @@ else
     echo -e "[\e[1;34m*\e[0m] O diretório $dest/tailwind-examples já existe."
 fi
 
-cd /usr/local/bin/
+cd $orig
 
 sfscripts=(bootstrap breeze html jetstream laravel livv vite vite-ts vscode)
 

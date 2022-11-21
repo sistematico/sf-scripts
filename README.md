@@ -34,7 +34,14 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 
 ```bash
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv)
-```
+```  
+ou  
+
+```bash
+curl -sH 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv | bash -s -- nome_do_projeto
+```  
+
+curl -sH 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/livv/sf-livv | bash -s -- nome_do_projeto
 
 ##### [Laravel, Inertia.js, Vite.js, Vue.js 3 e TypeScript Stack](https://github.com/sistematico/sf-scripts/livv-ts)
 
