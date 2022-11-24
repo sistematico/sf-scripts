@@ -3,11 +3,11 @@
 # Arquivo: sf-bootstrap
 # Descrição: Twitter Bootstrap 5 Scaffolding
 #
-# Mais um script feito com ❤️ por: 
+# Mais um script feito com ❤️ por:
 # - "Lucas Saliés Brum" <lucas@archlinux.com.br>
-# 
+#
 # Criado em:  08/11/2021 19:11:04
-# Atualizado: 08/11/2021 21:08:26
+# Atualizado: 22/11/2022 22:33:58
 #
 # Referência:
 # FG: reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, white = 37
@@ -17,10 +17,12 @@ EDITOR="code"
 BROWSER="firefox"
 VERSION="5.2.2"
 URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/bootstrap"
+LAUNCH="true"
+OPEN="false"
 
-if ! command -v dialog &> /dev/null; then
-  echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro."
-  exit
+if ! command -v dialog &>/dev/null; then
+    echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro."
+    exit
 fi
 
 test -d $HOME/.config/dialog || /usr/bin/mkdir -p $HOME/.config/dialog
@@ -28,9 +30,9 @@ test -f $HOME/.config/dialog/amarelo.cfg || curl -s -L https://raw.githubusercon
 export DIALOGRC=$HOME/.config/dialog/amarelo.cfg
 
 template=$(dialog --stdout --keep-tite \
-  --backtitle "Twitter Bootstrap 5" \
-  --title "Twitter Bootstrap Template" \
-  --radiolist "Escolha template" 17 45 50 \
+    --backtitle "Twitter Bootstrap 5" \
+    --title "Twitter Bootstrap Template" \
+    --radiolist "Escolha template" 17 45 50 \
     "Cover" "" ON \
     "Carousel" "" OFF \
     "Blog" "" OFF \
@@ -47,61 +49,61 @@ template=$(dialog --stdout --keep-tite \
 [ $? -ne 0 ] && exit
 
 case $template in
-  "Cover") 
+"Cover")
     html="$URL/templates/cover/index.html"
     css="$URL/templates/cover/cover.css"
     template="cover"
-  ;;
-  "Carousel") 
+    ;;
+"Carousel")
     html="$URL/templates/carousel/index.html"
     css="$URL/templates/carousel/carousel.css"
     template="carousel"
-  ;;
-  "Blog") 
+    ;;
+"Blog")
     html="$URL/templates/blog/index.html"
     css="$URL/templates/blog/blog.css"
     template="blog"
-  ;;
-  "Dashboard") 
+    ;;
+"Dashboard")
     html="$URL/templates/dashboard/index.html"
     css="$URL/templates/dashboard/dashboard.css"
     js="$URL/templates/dashboard/dashboard.js"
     template="dashboard"
-  ;;
-  "Signin") 
+    ;;
+"Signin")
     html="$URL/templates/signin/index.html"
     css="$URL/templates/signin/signin.css"
     template="signin"
-  ;;
-  "Sticky Footer")
+    ;;
+"Sticky Footer")
     html="$URL/templates/sticky-footer/index.html"
     css="$URL/templates/sticky-footer/sticky-footer.css"
     template="sticky-footer"
-  ;;
-  "Sticky Footer Navbar")
+    ;;
+"Sticky Footer Navbar")
     html="$URL/templates/sticky-footer-navbar/index.html"
     css="$URL/templates/sticky-footer-navbar/sticky-footer-navbar.css"
     template="sticky-footer-navbar"
-  ;;
-  "Jumbotron")
+    ;;
+"Jumbotron")
     html="$URL/templates/jumbotron/index.html"
     template="jumbotron"
-  ;;
-  "Starter")
+    ;;
+"Starter")
     html="$URL/templates/starter/index.html"
     template="starter"
-  ;;
-  "Navbar Bottom")
+    ;;
+"Navbar Bottom")
     html="$URL/templates/navbar-bottom/index.html"
     template="navbar-bottom"
-  ;;
-  "Bootstrap Chatbox")
+    ;;
+"Bootstrap Chatbox")
     html="$URL/templates/bootstrap-chatbox/index.html"
     template="bootstrap-chatbox"
-  ;;
-  *)
+    ;;
+*)
     exit
-  ;;
+    ;;
 esac
 
 test -d ${template}/assets/dist/js || /usr/bin/mkdir -p ${template}/assets/dist/js
@@ -111,54 +113,54 @@ test -d ${template}/assets/dist/css || /usr/bin/mkdir -p ${template}/assets/dist
 (test ! -d ${template}/assets/js && test ! -z "$js") && /usr/bin/mkdir -p ${template}/assets/js
 
 # Bootstrap CSS
-test -f ${template}/assets/dist/css/bootstrap.min.css || \
-curl -s -L -o ${template}/assets/dist/css/bootstrap.min.css \
-https://cdnjs.cloudflare.com/ajax/libs/bootstrap/${VERSION}/css/bootstrap.min.css
+test -f ${template}/assets/dist/css/bootstrap.min.css ||
+    curl -s -L -o ${template}/assets/dist/css/bootstrap.min.css \
+        https://cdnjs.cloudflare.com/ajax/libs/bootstrap/${VERSION}/css/bootstrap.min.css
 
 # Bootstrap JS
-test -f ${template}/assets/dist/js/bootstrap.min.css || \
-curl -s -L -o ${template}/assets/dist/js/bootstrap.bundle.min.js \
-https://cdnjs.cloudflare.com/ajax/libs/bootstrap/${VERSION}/js/bootstrap.bundle.min.js
+test -f ${template}/assets/dist/js/bootstrap.min.css ||
+    curl -s -L -o ${template}/assets/dist/js/bootstrap.bundle.min.js \
+        https://cdnjs.cloudflare.com/ajax/libs/bootstrap/${VERSION}/js/bootstrap.bundle.min.js
 
 if test ! -f ${template}/index.html; then
-  curl -s -L "$html" -o "${template}/index.html"
+    curl -s -L "$html" -o "${template}/index.html"
 else
-  dialog \
-    --keep-tite \
-    --title 'AVISO' \
-    --yesno '\nExiste um arquivo index.html\n
+    dialog \
+        --keep-tite \
+        --title 'AVISO' \
+        --yesno '\nExiste um arquivo index.html\n
               Quer sobreescrever?\n\n' \
-    0 0
+        0 0
     [ $? -eq 0 ] && curl -s -L "$html" -o "${template}/index.html"
 fi
 
 if [ ! -z "$css" ]; then
-  if test ! -f $template/assets/css/main.css; then
-    curl -s -L "$css" -o "${template}/assets/css/main.css"
-  else
-      dialog \
-    --keep-tite \
-    --title 'AVISO' \
-    --yesno '\nExiste um arquivo assets/css/main.css\n
+    if [ ! -f $template/assets/css/main.css ]; then
+        curl -s -L "$css" -o "${template}/assets/css/main.css"
+    else
+        dialog \
+            --keep-tite \
+            --title 'AVISO' \
+            --yesno '\nExiste um arquivo assets/css/main.css\n
               Quer sobreescrever?\n\n' \
-    0 0
-    [ $? -eq 0 ] && curl -s -L "$css" -o "${template}/assets/css/main.css"
-  fi
+            0 0
+        [ $? -eq 0 ] && curl -s -L "$css" -o "${template}/assets/css/main.css"
+    fi
 fi
 
 if [ ! -z "$js" ]; then
-  if test ! -f $template/assets/js/script.js; then
-    curl -s -L "$js" -o "${template}/assets/js/script.js"
-  else
-    dialog \
-    --keep-tite \
-    --title 'AVISO'                              \
-    --yesno '\nExiste um arquivo assets/js/script.js\n
-              Quer sobreescrever?\n\n'    \
-    0 0
-    [ $? -eq 0 ] && curl -s -L "$js" -o "${template}/assets/js/script.js"
-  fi
+    if [ ! -f $template/assets/js/script.js ]; then
+        curl -s -L "$js" -o "${template}/assets/js/script.js"
+    else
+        dialog \
+            --keep-tite \
+            --title 'AVISO' \
+            --yesno '\nExiste um arquivo assets/js/script.js\n
+              Quer sobreescrever?\n\n' \
+            0 0
+        [ $? -eq 0 ] && curl -s -L "$js" -o "${template}/assets/js/script.js"
+    fi
 fi
 
-$EDITOR "$template"
-$BROWSER "${template}/index.html"
+[ "$OPEN" == "true" ] && $EDITOR "$template"
+[ "$LAUNCH" == "true" ] && $BROWSER "${template}/index.html"

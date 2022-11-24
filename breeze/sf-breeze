@@ -5,7 +5,7 @@
 #
 # Mais um script feito com 💙 por "Lucas Saliés Brum" <lucas@archlinux.com.br>
 # Demo: https://www.gettr.com/post/pgjgwb394b
-# 
+#
 # Criado em:  23/09/2021 01:33:12
 # Atualizado: 05/05/2022 13:49:29
 #
@@ -25,10 +25,10 @@ BROWSER="firefox"
 URL="https://raw.githubusercontent.com/sistematico/sf-scripts/main/breeze"
 COMMON="https://raw.githubusercontent.com/sistematico/sf-scripts/main/common"
 
-command -v dialog &> /dev/null || (echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro." && exit)
-command -v php &> /dev/null || (echo -e "O programa \e[1;31mphp\e[0m não está instalado, instale-o primeiro." && exit)
-command -v ${NPM} &> /dev/null || (echo -e "O programa \e[1;31m${NPM}\e[0m não está instalado, instale-o primeiro." && exit)
-command -v composer &> /dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
+command -v dialog &>/dev/null || (echo -e "O programa \e[1;31mdialog\e[0m não está instalado, instale-o primeiro." && exit)
+command -v php &>/dev/null || (echo -e "O programa \e[1;31mphp\e[0m não está instalado, instale-o primeiro." && exit)
+command -v ${NPM} &>/dev/null || (echo -e "O programa \e[1;31m${NPM}\e[0m não está instalado, instale-o primeiro." && exit)
+command -v composer &>/dev/null || (echo -e "O programa \e[1;31mcomposer\e[0m não está instalado, instale-o primeiro." && exit)
 
 version() {
     echo "$(basename $0) v0.1b"
@@ -45,11 +45,11 @@ upgrade() {
     [[ "$response" =~ ^([yY]|[sS])$ ]] || return
 
     echo -e "[\e[1;35m*\e[0m] Upgrading Composer..."
-    sudo composer self-update --no-interaction --quiet 2> /dev/null
+    sudo composer self-update --no-interaction --quiet 2>/dev/null
     echo -e "[\e[1;35m*\e[0m] Upgrading Larave Installer..."
-    sudo composer global require laravel/installer --no-interaction --quiet 2> /dev/null
+    sudo composer global require laravel/installer --no-interaction --quiet 2>/dev/null
     echo -e "[\e[1;35m*\e[0m] Upgrading pnpm..."
-    sudo pnpm add -g pnpm 1> /dev/null 2> /dev/null
+    sudo pnpm add -g pnpm 1>/dev/null 2>/dev/null
 }
 
 launch() {
@@ -59,9 +59,9 @@ launch() {
     fi
 
     \tmux new-session -d -s $TMUX_SESSION 2>/dev/null
-    
-    \tmux new-window -t $TMUX_SESSION -n artisan 
-    \tmux new-window -t $TMUX_SESSION -n npm 
+
+    \tmux new-window -t $TMUX_SESSION -n artisan
+    \tmux new-window -t $TMUX_SESSION -n npm
 
     \tmux send-keys -t $TMUX_SESSION:artisan "php artisan serve" ENTER
     \tmux send-keys -t $TMUX_SESSION:npm "$NPM dev" ENTER
@@ -75,8 +75,8 @@ build() {
     composer install
 
     rm -rf node_modules package-lock.json
-    
-    $NPM install 1> /dev/null 2> /dev/null 
+
+    $NPM install 1>/dev/null 2>/dev/null
     $NPM run dev
 
     php artisan migrate:fresh --seed --force -q
@@ -85,7 +85,7 @@ build() {
 }
 
 setup() {
-    [ ! -f ${PROJECT}/artisan ] && laravel new "$PROJECT"
+    [ ! -f ${PROJECT}/artisan ] && composer create-project laravel/laravel $PROJECT
 
     cd "$PROJECT"
 
@@ -94,83 +94,88 @@ setup() {
         --title "Laravel Breeze Config Files" \
         --checklist "Escolha as configs que deseja instalar:" 17 45 50 \
         "Visual Studio Code" "" ON \
-        "Ansible"            "" ON \
-        "Github WorkFlows"   "" ON \
-        "Laravel .env"       "" ON \
-        ".gitignore"         "" ON \
-        "Prettier"           "" ON \
+        "Ansible" "" ON \
+        "Github WorkFlows" "" ON \
+        "Laravel .env" "" ON \
+        ".gitignore" "" ON \
+        "Prettier" "" ON \
         --output-fd 1)
 
+    dialog \
+        --keep-tite \
+        --title 'Resposta' \
+        --infobox "$answer" \
+        0 0
 
     test -f database/database.sqlite || touch database/database.sqlite
 
     if [[ $answer =~ ".gitignore" ]]; then
         # .gitignore
-        test -f .gitignore || \
+        test -f .gitignore ||
             curl -sL -o .gitignore \
-            $COMMON/gitignore
+                $COMMON/gitignore
     fi
 
     if [[ $answer =~ "Prettier" ]]; then
         # Prettier
-        test -f .prettierrc.json || \
+        test -f .prettierrc.json ||
             curl -sL -o .prettierrc.json \
-            $COMMON/.prettierrc.json
+                $COMMON/.prettierrc.json
     fi
 
     if [[ $answer =~ "Visual" ]]; then
         # VSCode Settings
         test -d .vscode || /usr/bin/mkdir .vscode
 
-        test -f .vscode/settings.json || \
+        test -f .vscode/settings.json ||
             curl -sL -o .vscode/settings.json \
-            $COMMON/settings.json
+                $COMMON/settings.json
 
         # VSCode Tasks
-        test -f .vscode/tasks.json || \
+        test -f .vscode/tasks.json ||
             curl -sL -o .vscode/tasks.json \
-            $URL/tasks.json
+                $URL/tasks.json
     fi
 
     # Ansible
     if [[ $answer =~ "Ansible" ]]; then
-        test -f ansible.sh || \
+        test -f ansible.sh ||
             curl -sL -o ansible.sh \
-            $COMMON/ansible.sh
+                $COMMON/ansible.sh
 
         chmod +x ansible.sh
-    
-        test -f ansible.yml || \
+
+        test -f ansible.yml ||
             curl -sL -o ansible.yml \
-            $URL/ansible.yml
+                $URL/ansible.yml
     fi
 
     if [[ $answer =~ "Github" ]]; then
         # Github Workflows
         test -d .github/workflows || /usr/bin/mkdir -p .github/workflows
 
-        test -f .github/workflows/jetstream.yml || \
+        test -f .github/workflows/jetstream.yml ||
             curl -sL -o .github/workflows/jetstream.yml \
-            $URL/jetstream.yml
+                $URL/jetstream.yml
     fi
 
     if [[ $answer =~ "Laravel" ]]; then
         # Laravel .env
-        test -f .env || \
+        test -f .env ||
             curl -sL -o .env \
-            $URL/.env
+                $URL/.env
 
         # Laravel .env.example
-        test -f .env.example || \
+        test -f .env.example ||
             curl -sL -o .env.example \
-            $URL/.env.example
+                $URL/.env.example
     fi
 
     if [[ $answer =~ "Laravel" ]]; then
         # Build Script
-        test -f build.sh || \
+        test -f build.sh ||
             curl -sL -o build.sh \
-            $COMMON/build.sh
+                $COMMON/build.sh
 
         chmod +x build.sh
     fi
