@@ -4,7 +4,9 @@
     {
       "label": "Composer Install",
       "command": "composer",
-      "args": ["install"],
+      "args": [
+        "install"
+      ],
       "detail": "composer install",
       "group": "none",
       "options": {
@@ -22,7 +24,11 @@
       "command": "php",
       "detail": "php artisan serve",
       "group": "none",
-      "args": ["artisan", "serve", "--env=local"],
+      "args": [
+        "artisan",
+        "serve",
+        "--env=local"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/"
       },
@@ -68,6 +74,23 @@
       "problemMatcher": [],
       "detail": "pnpm build",
       "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Run Laravel Echo Server",
+      "command": "laravel-echo-server",
+      "args": ["start"],
+      "detail": "laravel-echo-server start",
+      "group": "none",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "presentation": {
         "reveal": "always",
         "panel": "new"
