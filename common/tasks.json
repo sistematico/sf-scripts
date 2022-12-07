@@ -72,6 +72,27 @@
       }
     },
     {
+      "label": "Artisan WebSockets Serve",
+      "type": "shell",
+      "command": "php",
+      "detail": "php artisan websockets:serve",
+      "group": "none",
+      "args": [
+        "artisan",
+        "websockets:serve"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "new"
+      }
+    },
+    {
       "label": "NPM Install",
       "type": "npm",
       "script": "install",
