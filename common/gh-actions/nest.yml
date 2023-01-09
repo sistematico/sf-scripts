@@ -1,0 +1,37 @@
+name: NestJS Deploy
+
+on:
+  push:
+    branches: [ api ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Copy repository contents via scp
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASS }}
+        port: ${{ secrets.SSH_PORT }}
+        source: "."
+        target: ${{ secrets.PROJECT_API_PATH }}
+
+  build:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building Vue.js
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASS }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd ${{ secrets.PROJECT_API_PATH }}
+          git pull origin main
+          pnpm install
+          pnpm run build

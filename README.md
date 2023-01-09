@@ -63,6 +63,12 @@ bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/si
 bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/vite-ts/sf-vite)
 ```
 
+##### [NestJS](https://github.com/sistematico/sf-scripts/nestjs)
+
+```bash
+bash <(curl -s -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/sistematico/sf-scripts/main/nestjs/sf-nestjs)
+```
+
 #### HTML
 
 ##### [HTML Skeletons](https://github.com/sistematico/sf-scripts/html)
