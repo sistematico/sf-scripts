@@ -26,7 +26,7 @@ fi
 
 cd $orig
 
-sfscripts=(bootstrap breeze html jetstream laravel livv vite vite-ts nestjs vscode)
+sfscripts=(bootstrap breeze html jetstream laravel livv vite vite-ts nodejs nestjs vscode)
 
 for s in "${sfscripts[@]}"; do
     echo -e "[\e[1;35m*\e[0m] Criando link simbólico para sf-${s}..."

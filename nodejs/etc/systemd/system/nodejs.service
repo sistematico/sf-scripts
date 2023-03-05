@@ -1,0 +1,20 @@
+[Unit]
+Description=MyApp Server
+
+[Service]
+Environment=NODE_ENV=production PORT=60000
+User=myuser
+Group=mygroup
+
+ExecStart=/usr/bin/node /home/myuser/myappdir/public_html/server.js
+WorkingDirectory=/home/myuser/myappdir/public_html
+
+RestartSec=10
+Restart=always
+
+StandardOutput= /home/myuser/myappdir/logs/myapp.out.log
+StandardError= /home/myuser/myappdir/logs/myapp.err.log
+SyslogIdentifier=nodejs-myapp
+
+[Install]
+WantedBy=multi-user.target

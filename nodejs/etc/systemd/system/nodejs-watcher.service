@@ -1,0 +1,9 @@
+[Unit]
+Description=MyApp Server Watcher
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart app
+
+[Install]
+WantedBy=multi-user.target

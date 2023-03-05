@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Arquivo: sf-nestjs
-# Descrição: NestJS Scaffolding
+# Arquivo: sf-nodejs
+# Descrição: Node.js Scaffolding
 #
 # Mais um script feito com ❤️ por: 
 # - "Lucas Saliés Brum" <lucas@archlinux.com.br>
@@ -9,10 +9,13 @@
 # Criado em: 08/01/2023 20:42:12
 # Atualizado: 08/01/2023 20:42:12
 
-[ $1 ] && PROJECT="$1" || PROJECT="nestjs"
+[ $1 ] && PROJECT="$1" || PROJECT="nodejs"
 BROWSER="firefox"
 LAUNCH="true"
-TMUX_SESSION="Nest"
+TMUX_SESSION="Node"
+
+# PASSWORD="openssl passwd -quiet -crypt myPassword"
+# useradd -m -p "$PASSWORD" -s /bin/bash <user>
 
 [ ! -d $PROJECT ] && nest new $PROJECT
 
@@ -24,7 +27,7 @@ test -d .github/workflows || mkdir -p .github/workflows
 # .gitignore
 test -f .gitignore || \
     curl -sLo .gitignore \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gitignore/nestjs
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gitignore/nodejs
 
 # VSCode Settings
 test -f .vscode/settings.json || \
@@ -34,17 +37,21 @@ test -f .vscode/settings.json || \
 # VSCode Recommendations
 test -f .vscode/extensions.json || \
     curl -sLo .vscode/extensions.json \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/nestjs/extensions.json
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/nodejs/extensions.json
 
 # VSCode Tasks
 test -f .vscode/tasks.json || \
     curl -sLo .vscode/tasks.json \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/vscode/nestjs-tasks.json
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/vscode/nodejs-tasks.json
 
 # Github Workflows
-test -f .github/workflows/nest.yml || \
-    curl -sLo .github/workflows/nest.yml \
-    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/nest.yml
+test -f .github/workflows/ci.yml || \
+    curl -sLo .github/workflows/ci.yml \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/node/ci.yml
+
+test -f .github/workflows/cd.yml || \
+    curl -sLo .github/workflows/cd.yml \
+    https://raw.githubusercontent.com/sistematico/sf-scripts/main/common/gh-actions/node/cd.yml
 
 pnpm install 1> /dev/null
 
@@ -53,7 +60,7 @@ if [ "$LAUNCH" == "true" ]; then
     [ $? != 0 ] && \tmux kill-session -t $TMUX_SESSION
     \tmux new-session -d -s $TMUX_SESSION 2> /dev/null
     \tmux new-window -t $TMUX_SESSION -n pnpm -d
-    \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm run start:dev" ENTER
+    \tmux send-keys -t $TMUX_SESSION:pnpm "cd $PROJECT ; pnpm run dev" ENTER
     \tmux detach -s $TMUX_SESSION
 fi
 
